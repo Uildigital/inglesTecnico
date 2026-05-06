@@ -27,7 +27,11 @@ function App() {
         .order('id', { ascending: true });
 
       if (error) throw error;
-      setTerms(data || []);
+      
+      // Embaralhar (Shuffle) os dados recebidos
+      const shuffled = (data || []).sort(() => Math.random() - 0.5);
+      
+      setTerms(shuffled);
       setCurrentIndex(0);
     } catch (err) {
       console.error('Error fetching terms:', err);
