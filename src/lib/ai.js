@@ -35,3 +35,17 @@ export const analyzeAnswer = async (term, userTranslation, userExplanation) => {
     return "Ops! Tive um pequeno problema ao processar sua análise. Mas continue estudando!";
   }
 };
+
+export const translateExample = async (example) => {
+  const prompt = `Traduza esta frase técnica de ServiceNow para Português do Brasil: "${example}". Retorne apenas a tradução, sem comentários.`;
+  try {
+    const response = await openai.chat.completions.create({
+      model: "gpt-3.5-turbo",
+      messages: [{ role: "user", content: prompt }],
+      temperature: 0.3,
+    });
+    return response.choices[0].message.content;
+  } catch (error) {
+    return "Tradução indisponível no momento.";
+  }
+};
