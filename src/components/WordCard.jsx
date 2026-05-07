@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Brain, CheckCircle, ChevronRight, MessageSquareCode, Loader2, Eye, PenTool, BookOpen, Volume2, Languages } from 'lucide-react';
+import { Brain, CheckCircle, ChevronRight, MessageSquareCode, Loader2, Eye, PenTool, BookOpen, Volume2, Languages, Sliders } from 'lucide-react';
 import { analyzeAnswer, translateExample } from '../lib/ai';
 
 const WordCard = ({ term, onNext }) => {
@@ -13,12 +13,13 @@ const WordCard = ({ term, onNext }) => {
   const [revealed, setRevealed] = useState(false);
   const [exampleTranslation, setExampleTranslation] = useState(null);
   const [isLoadingTranslation, setIsLoadingTranslation] = useState(false);
+  const [speechRate, setSpeechRate] = useState(0.7); // Padrão mais lento para iniciantes
 
-  // Função para ouvir a palavra ou frase
   const speak = (text, lang = 'en-US') => {
+    window.speechSynthesis.cancel(); // Para qualquer fala anterior
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = lang;
-    utterance.rate = 0.9;
+    utterance.rate = speechRate;
     window.speechSynthesis.speak(utterance);
   };
 
@@ -37,13 +38,10 @@ const WordCard = ({ term, onNext }) => {
     try {
       const feedback = await analyzeAnswer(term, translation, description);
       setAiFeedback(feedback);
-      
-      // Traduzir exemplo também na análise
       if (term.example && !exampleTranslation) {
         const translated = await translateExample(term.example);
         setExampleTranslation(translated);
       }
-      
       setShowResult(true);
     } catch (error) {
       setAiFeedback("Erro ao conectar com a IA. Tente novamente.");
@@ -65,19 +63,39 @@ const WordCard = ({ term, onNext }) => {
 
   return (
     <div className="w-full max-w-2xl mx-auto p-4 md:p-6">
-      <div className="flex justify-center gap-4 mb-6">
-        <button 
-          onClick={() => { setMode('study'); setShowResult(false); setRevealed(false); }}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs md:text-sm transition-all ${mode === 'study' ? 'bg-sn-green text-sn-navy font-bold' : 'bg-white/5 text-text-muted'}`}
-        >
-          <Eye className="w-4 h-4" /> Memorizar
-        </button>
-        <button 
-          onClick={() => { setMode('practice'); setShowResult(false); }}
-          className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs md:text-sm transition-all ${mode === 'practice' ? 'bg-sn-green text-sn-navy font-bold' : 'bg-white/5 text-text-muted'}`}
-        >
-          <PenTool className="w-4 h-4" /> Praticar
-        </button>
+      {/* Controles de Cabeçalho */}
+      <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+        <div className="flex bg-white/5 p-1 rounded-full border border-white/10">
+          <button 
+            onClick={() => { setMode('study'); setShowResult(false); setRevealed(false); }}
+            className={`flex items-center gap-2 px-6 py-2 rounded-full text-xs md:text-sm transition-all ${mode === 'study' ? 'bg-sn-green text-sn-navy font-bold shadow-lg shadow-sn-green/20' : 'text-text-muted hover:text-white'}`}
+          >
+            <Eye className="w-4 h-4" /> Memorizar
+          </button>
+          <button 
+            onClick={() => { setMode('practice'); setShowResult(false); }}
+            className={`flex items-center gap-2 px-6 py-2 rounded-full text-xs md:text-sm transition-all ${mode === 'practice' ? 'bg-sn-green text-sn-navy font-bold shadow-lg shadow-sn-green/20' : 'text-text-muted hover:text-white'}`}
+          >
+            <PenTool className="w-4 h-4" /> Praticar
+          </button>
+        </div>
+
+        {/* Seletor de Velocidade */}
+        <div className="flex items-center gap-3 bg-sn-navy/50 px-4 py-2 rounded-xl border border-white/5">
+          <Sliders className="w-3 h-3 text-text-muted" />
+          <span className="text-[10px] uppercase font-bold text-text-muted tracking-widest">Velocidade:</span>
+          <div className="flex gap-1">
+            {[0.5, 0.7, 1.0].map((rate) => (
+              <button
+                key={rate}
+                onClick={() => setSpeechRate(rate)}
+                className={`text-[10px] px-2 py-1 rounded-md transition-all font-mono ${speechRate === rate ? 'bg-sn-green text-sn-navy font-bold' : 'text-text-muted hover:bg-white/5'}`}
+              >
+                {rate === 0.5 ? 'Lento' : rate === 0.7 ? 'Médio' : 'Normal'}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       <AnimatePresence mode="wait">
@@ -93,11 +111,11 @@ const WordCard = ({ term, onNext }) => {
               <div className="flex items-center gap-2">
                 <BookOpen className="w-4 h-4 text-sn-green" />
                 <span className="text-sn-green font-mono text-[10px] md:text-xs tracking-widest uppercase">
-                  Nível: {term.level}
+                   {term.level}
                 </span>
               </div>
               <span className="bg-white/5 px-3 py-1 rounded-full text-[10px] text-text-muted font-medium">
-                Contexto: {term.context}
+                {term.context}
               </span>
             </div>
 
@@ -106,8 +124,7 @@ const WordCard = ({ term, onNext }) => {
                 <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-white">{term.word}</h2>
                 <button 
                   onClick={() => speak(term.word)}
-                  className="p-3 rounded-full bg-sn-green/10 text-sn-green hover:bg-sn-green/20 transition-all active:scale-95"
-                  title="Ouvir Pronúncia"
+                  className="p-3 rounded-full bg-sn-green/10 text-sn-green hover:bg-sn-green/20 transition-all active:scale-95 shadow-lg shadow-sn-green/5"
                 >
                   <Volume2 className="w-6 h-6" />
                 </button>
@@ -115,7 +132,7 @@ const WordCard = ({ term, onNext }) => {
               
               {term.phonetic && (
                 <div className="inline-flex items-center gap-2 bg-sn-navy/40 px-4 py-2 rounded-lg border border-white/5">
-                  <span className="text-[10px] uppercase font-bold text-sn-green/60">Símbolos Fonéticos:</span>
+                  <span className="text-[10px] uppercase font-bold text-sn-green/60 tracking-tighter">Guia Fonético:</span>
                   <p className="text-text-muted font-mono text-sm md:text-base">{term.phonetic}</p>
                 </div>
               )}
@@ -128,16 +145,16 @@ const WordCard = ({ term, onNext }) => {
                   <input
                     type="text"
                     className="glass-input w-full"
-                    placeholder="Sua tradução..."
+                    placeholder="O que significa?"
                     value={translation}
                     onChange={(e) => setTranslation(e.target.value)}
                   />
                 </div>
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-bold text-text-muted uppercase tracking-tighter">O que é no ServiceNow?</label>
+                  <label className="text-xs font-bold text-text-muted uppercase tracking-tighter">Explicação no ServiceNow</label>
                   <textarea
                     className="glass-input min-h-[100px] resize-none w-full text-sm"
-                    placeholder="Explique o conceito técnico..."
+                    placeholder="Explique o conceito..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                   />
@@ -153,9 +170,6 @@ const WordCard = ({ term, onNext }) => {
               </div>
             ) : (
               <div className="flex flex-col gap-4">
-                <p className="text-center text-text-muted text-sm italic mb-4">
-                  Pense no significado antes de revelar...
-                </p>
                 <button
                   onClick={handleReveal}
                   className="btn-primary flex items-center justify-center gap-2 w-full py-5 text-lg shadow-xl shadow-sn-green/20"
@@ -202,7 +216,6 @@ const WordCard = ({ term, onNext }) => {
                       <button 
                         onClick={() => speak(term.example)}
                         className="p-1.5 rounded-lg bg-white/5 text-text-muted hover:text-sn-green transition-all"
-                        title="Ouvir Exemplo"
                       >
                         <Volume2 className="w-4 h-4" />
                       </button>
@@ -215,9 +228,9 @@ const WordCard = ({ term, onNext }) => {
                       <Languages className="w-3 h-3" /> Tradução do Exemplo
                     </h4>
                     {isLoadingTranslation ? (
-                      <div className="flex items-center gap-2 text-text-muted text-xs">
+                      <div className="flex items-center gap-2 text-text-muted text-xs italic">
                         <Loader2 className="w-3 h-3 animate-spin" />
-                        Traduzindo com IA...
+                        Traduzindo...
                       </div>
                     ) : (
                       <p className="text-text-muted text-sm leading-snug">{exampleTranslation}</p>
