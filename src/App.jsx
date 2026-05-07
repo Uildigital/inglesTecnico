@@ -90,6 +90,13 @@ function App() {
             <GraduationCap className="w-5 h-5 mb-1" />
             <span className="text-[10px] md:text-xs">Avançado</span>
           </button>
+          <button
+            onClick={() => setLevel('csa')}
+            className={`segmented-btn min-w-[70px] ${level === 'csa' ? 'active' : ''}`}
+          >
+            <Layers className="w-5 h-5 mb-1 text-accent" />
+            <span className="text-[10px] md:text-xs font-bold text-accent">CSA Prep</span>
+          </button>
         </div>
       </nav>
 
