@@ -61,27 +61,34 @@ function App() {
 
       {/* Navegação Profissional (Segmented Control) */}
       <nav className="mb-8 w-full max-w-lg mx-auto">
-        <div className="segmented-control">
+        <div className="segmented-control overflow-x-auto">
           <button
-            onClick={() => setLevel('beginner')}
-            className={`segmented-btn ${level === 'beginner' ? 'active' : ''}`}
+            onClick={() => setLevel('basic')}
+            className={`segmented-btn min-w-[70px] ${level === 'basic' ? 'active' : ''}`}
           >
             <BookOpen className="w-5 h-5 mb-1" />
-            Iniciante
+            <span className="text-[10px] md:text-xs">Básico</span>
+          </button>
+          <button
+            onClick={() => setLevel('beginner')}
+            className={`segmented-btn min-w-[70px] ${level === 'beginner' ? 'active' : ''}`}
+          >
+            <Layers className="w-5 h-5 mb-1" />
+            <span className="text-[10px] md:text-xs">Iniciante</span>
           </button>
           <button
             onClick={() => setLevel('intermediate')}
-            className={`segmented-btn ${level === 'intermediate' ? 'active' : ''}`}
+            className={`segmented-btn min-w-[70px] ${level === 'intermediate' ? 'active' : ''}`}
           >
-            <Layers className="w-5 h-5 mb-1" />
-            Intermediário
+            <Search className="w-5 h-5 mb-1" />
+            <span className="text-[10px] md:text-xs">Interm.</span>
           </button>
           <button
             onClick={() => setLevel('advanced')}
-            className={`segmented-btn ${level === 'advanced' ? 'active' : ''}`}
+            className={`segmented-btn min-w-[70px] ${level === 'advanced' ? 'active' : ''}`}
           >
-            <Search className="w-5 h-5 mb-1" />
-            Avançado
+            <GraduationCap className="w-5 h-5 mb-1" />
+            <span className="text-[10px] md:text-xs">Avançado</span>
           </button>
         </div>
       </nav>
