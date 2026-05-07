@@ -44,52 +44,55 @@ function App() {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto min-h-screen pb-20 flex flex-col items-center">
-      <header className="p-6 md:p-10 text-center w-full">
+    <div className="w-full max-w-4xl min-h-screen flex flex-col items-center pb-24">
+      {/* HEADER CENTRALIZADO */}
+      <header className="py-8 md:py-16 text-center w-full px-4">
         <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="bg-sn-green p-2 rounded-lg shadow-lg shadow-sn-green/20">
-            <Layout className="text-sn-navy w-8 h-8" />
+          <div className="bg-sn-green p-2.5 rounded-2xl shadow-xl shadow-sn-green/20">
+            <Layout className="text-sn-navy w-7 h-7 md:w-9 md:h-9" />
           </div>
-          <h1 className="text-3xl md:text-5xl font-bold tracking-tighter">
+          <h1 className="text-3xl md:text-6xl font-bold tracking-tight">
             SN <span className="text-sn-green">Tech</span> English
           </h1>
         </div>
-        <p className="text-text-muted text-sm md:text-base max-w-md mx-auto">
-          Acelere seu inglês técnico para a certificação ServiceNow da Capgemini.
+        <p className="text-text-muted text-xs md:text-lg max-w-md mx-auto leading-relaxed">
+          Domine o vocabulário técnico da ServiceNow para sua carreira na Capgemini.
         </p>
       </header>
 
-      <nav className="w-full max-w-md px-6 mb-10">
-        <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/10 shadow-2xl justify-between items-center">
+      {/* NAV RESPONSIVA */}
+      <nav className="w-full max-w-md px-4 mb-12">
+        <div className="flex bg-black/20 p-1.5 rounded-3xl border border-white/5 shadow-2xl justify-between items-center gap-1">
           <button
             onClick={() => setLevel('beginner')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 rounded-xl transition-all duration-300 ${level === 'beginner' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
+            className={`flex-1 flex flex-col items-center gap-1 py-3 px-1 rounded-2xl transition-all duration-300 ${level === 'beginner' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
           >
-            <BookOpen className="w-4 h-4" />
-            <span className="text-[10px] uppercase font-bold tracking-widest">Iniciante</span>
+            <BookOpen className="w-4 h-4 md:w-5 md:h-5" />
+            <span className="text-[9px] md:text-[10px] uppercase font-black tracking-widest">Iniciante</span>
           </button>
           <button
             onClick={() => setLevel('intermediate')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 rounded-xl transition-all duration-300 ${level === 'intermediate' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
+            className={`flex-1 flex flex-col items-center gap-1 py-3 px-1 rounded-2xl transition-all duration-300 ${level === 'intermediate' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
           >
-            <Layers className="w-4 h-4" />
-            <span className="text-[10px] uppercase font-bold tracking-widest">Interm.</span>
+            <Layers className="w-4 h-4 md:w-5 md:h-5" />
+            <span className="text-[9px] md:text-[10px] uppercase font-black tracking-widest">Interm.</span>
           </button>
           <button
             onClick={() => setLevel('advanced')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 rounded-xl transition-all duration-300 ${level === 'advanced' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
+            className={`flex-1 flex flex-col items-center gap-1 py-3 px-1 rounded-2xl transition-all duration-300 ${level === 'advanced' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
           >
-            <Search className="w-4 h-4" />
-            <span className="text-[10px] uppercase font-bold tracking-widest">Avançado</span>
+            <Search className="w-4 h-4 md:w-5 md:h-5" />
+            <span className="text-[9px] md:text-[10px] uppercase font-black tracking-widest">Avançado</span>
           </button>
         </div>
       </nav>
 
-      <main className="w-full px-4">
+      {/* CONTEÚDO PRINCIPAL */}
+      <main className="w-full max-w-2xl px-4 flex-1 flex flex-col items-center">
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <div className="w-12 h-12 border-4 border-sn-green border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-text-muted font-mono animate-pulse">Carregando termos...</p>
+          <div className="flex flex-col items-center justify-center py-20 gap-6">
+            <div className="w-14 h-14 border-4 border-sn-green border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-sn-green/60 font-mono text-sm animate-pulse uppercase tracking-widest">Acessando Data Center...</p>
           </div>
         ) : terms.length > 0 ? (
           <WordCard 
@@ -97,15 +100,15 @@ function App() {
             onNext={nextTerm} 
           />
         ) : (
-          <div className="text-center py-20">
-            <p className="text-text-muted">Nenhum termo encontrado.</p>
+          <div className="text-center py-20 glass-card p-10">
+            <p className="text-text-muted">Nenhum termo disponível para este nível.</p>
           </div>
         )}
       </main>
 
-      <footer className="fixed bottom-0 left-0 right-0 p-4 bg-sn-navy/80 backdrop-blur-md border-t border-white/5 text-center z-50">
-        <p className="text-[10px] text-text-muted uppercase tracking-widest font-bold">
-          SN Tech English &copy; 2026 | Capgemini Study Tool
+      <footer className="fixed bottom-0 left-0 right-0 p-4 bg-sn-navy/90 backdrop-blur-xl border-t border-white/5 text-center z-50">
+        <p className="text-[9px] md:text-[10px] text-text-muted uppercase tracking-[0.2em] font-black opacity-80">
+          SN Tech English &bull; Capgemini Training Tool &bull; 2026
         </p>
       </footer>
     </div>
