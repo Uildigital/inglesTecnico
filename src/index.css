@@ -49,6 +49,16 @@ body {
   background: var(--bg-gradient);
   color: var(--text-main);
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-selected {
+  background-color: var(--sn-green) !important;
+  color: var(--sn-navy) !important;
+  transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(130, 223, 0, 0.4);
+  font-weight: 800 !important;
+  border: 2px solid white !important;
 }
 
 #root {
