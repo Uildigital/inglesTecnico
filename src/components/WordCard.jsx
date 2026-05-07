@@ -89,22 +89,22 @@ const WordCard = ({ term, onNext, progress }) => {
       <div className="p-6 md:p-8 flex flex-col flex-1">
         
         {/* Metadados da Palavra */}
-        <div className="flex items-center justify-center gap-2 mb-6">
-          <span className="px-2.5 py-1 bg-accent/10 text-accent text-xs font-semibold rounded uppercase tracking-wider">
+        <div className="flex items-center justify-center gap-2 mb-6 w-full">
+          <span className="px-2.5 py-1 bg-accent/10 text-accent text-xs font-semibold rounded uppercase tracking-wider text-center">
             {term.context}
           </span>
         </div>
 
         {/* Palavra Principal */}
-        <div className="text-center mb-8 relative">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight">
+        <div className="text-center mb-8 relative w-full flex flex-col items-center justify-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4 tracking-tight text-center">
             {term.word}
           </h2>
           
-          <div className="flex items-center justify-center gap-3 relative">
+          <div className="flex items-center justify-center gap-3 relative w-full">
             <button 
               onClick={() => speak(term.word)}
-              className="w-12 h-12 flex items-center justify-center rounded-full bg-accent text-white hover:bg-accent-hover transition-colors shadow-lg"
+              className="w-12 h-12 flex items-center justify-center rounded-full bg-accent text-white hover:bg-accent-hover transition-colors shadow-lg shrink-0"
               title="Ouvir"
             >
               <Volume2 className="w-6 h-6" />

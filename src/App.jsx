@@ -47,14 +47,14 @@ function App() {
     <div className="flex flex-col min-h-screen w-full px-4 py-6 md:py-10">
       
       {/* Header Limpo */}
-      <header className="mb-8 text-center flex flex-col items-center">
-        <div className="flex items-center gap-3 mb-2">
+      <header className="mb-8 w-full flex flex-col items-center justify-center text-center">
+        <div className="flex items-center justify-center gap-3 mb-2">
           <GraduationCap className="text-accent w-8 h-8 md:w-10 md:h-10" />
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-center">
             SN Tech <span className="font-light text-text-muted">English</span>
           </h1>
         </div>
-        <p className="text-text-muted text-sm md:text-base">
+        <p className="text-text-muted text-sm md:text-base text-center">
           Programa de Estudo Capgemini
         </p>
       </header>
