@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import WordCard from './components/WordCard';
-import { Layout, Search, BookOpen, Layers } from 'lucide-react';
+import { BookOpen, Layers, Search, GraduationCap } from 'lucide-react';
 
 function App() {
   const [level, setLevel] = useState('beginner');
@@ -44,69 +44,69 @@ function App() {
   };
 
   return (
-    <>
-      <header className="w-full text-center py-6 md:py-10">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <Layout className="text-sn-green w-6 h-6" />
-          <h1 className="text-2xl md:text-4xl font-bold tracking-tighter uppercase">
-            SN <span className="text-sn-green">Tech</span> English
+    <div className="flex flex-col min-h-screen w-full px-4 py-6 md:py-10">
+      
+      {/* Header Limpo */}
+      <header className="mb-8 text-center flex flex-col items-center">
+        <div className="flex items-center gap-3 mb-2">
+          <GraduationCap className="text-accent w-8 h-8 md:w-10 md:h-10" />
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+            SN Tech <span className="font-light text-text-muted">English</span>
           </h1>
         </div>
-        <p className="text-text-muted text-[10px] md:text-sm uppercase tracking-[0.2em] font-bold opacity-60">
-          Capgemini Study Tool
+        <p className="text-text-muted text-sm md:text-base">
+          Programa de Estudo Capgemini
         </p>
       </header>
 
-      <nav className="w-full mb-8">
-        <div className="flex bg-black/30 p-1 rounded-2xl border border-white/5 shadow-inner">
+      {/* Navegação Profissional (Segmented Control) */}
+      <nav className="mb-8 w-full max-w-lg mx-auto">
+        <div className="segmented-control">
           <button
             onClick={() => setLevel('beginner')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 rounded-xl transition-all duration-300 ${level === 'beginner' ? 'btn-selected' : 'text-text-muted opacity-60'}`}
+            className={`segmented-btn ${level === 'beginner' ? 'active' : ''}`}
           >
-            <BookOpen className="w-4 h-4" />
-            <span className="text-[8px] md:text-[9px] font-black uppercase tracking-tighter">Iniciante</span>
+            <BookOpen className="w-5 h-5 mb-1" />
+            Iniciante
           </button>
           <button
             onClick={() => setLevel('intermediate')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 rounded-xl transition-all duration-300 ${level === 'intermediate' ? 'btn-selected' : 'text-text-muted opacity-60'}`}
+            className={`segmented-btn ${level === 'intermediate' ? 'active' : ''}`}
           >
-            <Layers className="w-4 h-4" />
-            <span className="text-[8px] md:text-[9px] font-black uppercase tracking-tighter">Interm.</span>
+            <Layers className="w-5 h-5 mb-1" />
+            Intermediário
           </button>
           <button
             onClick={() => setLevel('advanced')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 rounded-xl transition-all duration-300 ${level === 'advanced' ? 'btn-selected' : 'text-text-muted opacity-60'}`}
+            className={`segmented-btn ${level === 'advanced' ? 'active' : ''}`}
           >
-            <Search className="w-4 h-4" />
-            <span className="text-[8px] md:text-[9px] font-black uppercase tracking-tighter">Avançado</span>
+            <Search className="w-5 h-5 mb-1" />
+            Avançado
           </button>
         </div>
       </nav>
 
-      <main className="w-full flex-1">
+      {/* Área Principal de Estudo */}
+      <main className="flex-1 w-full max-w-lg mx-auto flex flex-col">
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 gap-4">
-            <div className="w-10 h-10 border-4 border-sn-green border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-sn-green/40 text-[10px] uppercase font-black tracking-widest">Acessando Banco...</p>
+          <div className="flex flex-col items-center justify-center flex-1 gap-4">
+            <div className="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-text-muted text-sm font-medium">Carregando módulo...</p>
           </div>
         ) : terms.length > 0 ? (
           <WordCard 
             term={terms[currentIndex]} 
             onNext={nextTerm} 
+            progress={`${currentIndex + 1} / ${terms.length}`}
           />
         ) : (
-          <div className="text-center py-20 glass-card">
-            <p className="text-text-muted text-sm uppercase font-bold">Nenhum termo disponível.</p>
+          <div className="premium-card p-10 text-center flex-1 flex items-center justify-center">
+            <p className="text-text-muted">Nenhum termo disponível para esta categoria.</p>
           </div>
         )}
       </main>
 
-      <footer className="fixed bottom-0 left-0 right-0 p-4 bg-sn-navy/95 backdrop-blur-xl border-t border-white/5 text-center z-50">
-        <p className="text-[8px] text-text-muted uppercase tracking-[0.3em] font-black opacity-50">
-          ServiceNow Learning Framework &bull; 2026
-        </p>
-      </footer>
-    </>
+    </div>
   );
 }
 
