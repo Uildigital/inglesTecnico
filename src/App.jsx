@@ -44,8 +44,8 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen pb-20">
-      <header className="p-6 md:p-10 text-center">
+    <div className="w-full max-w-4xl mx-auto min-h-screen pb-20 flex flex-col items-center">
+      <header className="p-6 md:p-10 text-center w-full">
         <div className="flex items-center justify-center gap-3 mb-4">
           <div className="bg-sn-green p-2 rounded-lg shadow-lg shadow-sn-green/20">
             <Layout className="text-sn-navy w-8 h-8" />
@@ -59,25 +59,25 @@ function App() {
         </p>
       </header>
 
-      <nav className="max-w-xl mx-auto px-6 mb-10">
-        <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/10 shadow-2xl justify-between overflow-hidden">
+      <nav className="w-full max-w-md px-6 mb-10">
+        <div className="flex bg-white/5 p-1.5 rounded-2xl border border-white/10 shadow-2xl justify-between items-center">
           <button
             onClick={() => setLevel('beginner')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 px-2 rounded-xl transition-all duration-300 ${level === 'beginner' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
+            className={`flex-1 flex flex-col items-center gap-1 py-3 rounded-xl transition-all duration-300 ${level === 'beginner' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
           >
             <BookOpen className="w-4 h-4" />
             <span className="text-[10px] uppercase font-bold tracking-widest">Iniciante</span>
           </button>
           <button
             onClick={() => setLevel('intermediate')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 px-2 rounded-xl transition-all duration-300 ${level === 'intermediate' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
+            className={`flex-1 flex flex-col items-center gap-1 py-3 rounded-xl transition-all duration-300 ${level === 'intermediate' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
           >
             <Layers className="w-4 h-4" />
             <span className="text-[10px] uppercase font-bold tracking-widest">Interm.</span>
           </button>
           <button
             onClick={() => setLevel('advanced')}
-            className={`flex-1 flex flex-col items-center gap-1 py-3 px-2 rounded-xl transition-all duration-300 ${level === 'advanced' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
+            className={`flex-1 flex flex-col items-center gap-1 py-3 rounded-xl transition-all duration-300 ${level === 'advanced' ? 'btn-selected' : 'text-text-muted hover:bg-white/5'}`}
           >
             <Search className="w-4 h-4" />
             <span className="text-[10px] uppercase font-bold tracking-widest">Avançado</span>
@@ -85,11 +85,11 @@ function App() {
         </div>
       </nav>
 
-      <main className="container mx-auto px-4">
+      <main className="w-full px-4">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <div className="w-12 h-12 border-4 border-sn-green border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-text-muted font-mono animate-pulse">Carregando termos técnicos...</p>
+            <p className="text-text-muted font-mono animate-pulse">Carregando termos...</p>
           </div>
         ) : terms.length > 0 ? (
           <WordCard 
@@ -98,12 +98,12 @@ function App() {
           />
         ) : (
           <div className="text-center py-20">
-            <p className="text-text-muted">Nenhum termo encontrado para este nível.</p>
+            <p className="text-text-muted">Nenhum termo encontrado.</p>
           </div>
         )}
       </main>
 
-      <footer className="fixed bottom-0 left-0 right-0 p-4 bg-sn-navy/80 backdrop-blur-md border-t border-white/5 text-center">
+      <footer className="fixed bottom-0 left-0 right-0 p-4 bg-sn-navy/80 backdrop-blur-md border-t border-white/5 text-center z-50">
         <p className="text-[10px] text-text-muted uppercase tracking-widest font-bold">
           SN Tech English &copy; 2026 | Capgemini Study Tool
         </p>
