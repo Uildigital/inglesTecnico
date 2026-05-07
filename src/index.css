@@ -1,11 +1,12 @@
 :root {
-  --bg-gradient: radial-gradient(circle at top right, #002e3a 0%, #000d11 100%);
   --sn-green: #82df00;
   --sn-green-light: #a4ff2d;
   --sn-navy: #001e26;
-  --sn-navy-light: #002e3a;
+  --sn-navy-dark: #000d11;
   --text-main: #ffffff;
   --text-muted: #a0aec0;
+  --glass-bg: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -16,73 +17,87 @@
 
 html, body {
   width: 100%;
-  min-height: 100%;
-  margin: 0;
-  padding: 0;
+  height: 100%;
+  background: radial-gradient(circle at top right, #002e3a 0%, var(--sn-navy-dark) 100%) fixed;
 }
 
 body {
-  background: var(--bg-gradient) fixed;
   color: var(--text-main);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  overflow-x: hidden;
-  line-height: 1.5;
   -webkit-tap-highlight-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Permite scroll se for longo */
 }
 
 #root {
   width: 100%;
+  max-width: 600px; /* Estilo Mobile App no PC */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  padding: 0 1rem;
+  padding: 2rem 1rem 6rem 1rem;
 }
 
-/* Utilitários de Vidro */
+/* CARDS */
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--glass-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--glass-border);
   border-radius: 2.5rem;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
   width: 100%;
 }
 
+/* BOTÕES */
 .btn-primary {
   background: var(--sn-green);
   color: var(--sn-navy);
-  font-weight: 800;
-  border-radius: 1.25rem;
+  font-weight: 900;
+  border-radius: 1.5rem;
   border: none;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
+}
+
+.btn-primary:active {
+  transform: scale(0.96);
 }
 
 .btn-selected {
   background-color: var(--sn-green) !important;
   color: var(--sn-navy) !important;
-  box-shadow: 0 0 25px rgba(130, 223, 0, 0.5);
+  box-shadow: 0 0 30px rgba(130, 223, 0, 0.4);
   font-weight: 900 !important;
   border: 2px solid white !important;
-  transform: scale(1.05);
+  transform: scale(1.03);
 }
 
+/* INPUTS */
 .glass-input {
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--glass-border);
   border-radius: 1.25rem;
   color: white;
+  padding: 1.2rem;
   width: 100%;
 }
 
-/* Responsividade de Texto */
-@media (max-width: 640px) {
-  .btn-selected {
-    transform: scale(1.02); /* Escala menor no mobile para não quebrar layout */
-  }
+.glass-input:focus {
+  outline: none;
+  border-color: var(--sn-green);
+  box-shadow: 0 0 0 2px rgba(130, 223, 0, 0.2);
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--glass-border);
+  border-radius: 10px;
 }
