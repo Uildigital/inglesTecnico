@@ -122,7 +122,7 @@ const WordCard = ({ term, onNext, progress }) => {
               
               {showSpeedSettings && (
                 <div className="absolute top-12 left-1/2 -translate-x-1/2 bg-[#0f172a] border border-[#334155] rounded-xl p-2 shadow-xl z-20 flex gap-1">
-                  {[0.5, 0.8, 1.0].map((rate) => (
+                  {[0.3, 0.5, 0.8, 1.0].map((rate) => (
                     <button
                       key={rate}
                       onClick={() => { setSpeechRate(rate); setShowSpeedSettings(false); speak(term.word); }}
