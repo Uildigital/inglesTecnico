@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from './lib/supabase';
 import WordCard from './components/WordCard';
-import { BookOpen, Layers, Search, GraduationCap } from 'lucide-react';
+import { BookOpen, Layers, Search, GraduationCap, Activity, CheckCircle2, AlertCircle } from 'lucide-react';
 
 function App() {
   const [level, setLevel] = useState('beginner');
   const [terms, setTerms] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [connectionStatus, setConnectionStatus] = useState(null); // 'testing', 'success', 'error'
+  const [testMessage, setTestMessage] = useState('');
 
   useEffect(() => {
     fetchTerms();
@@ -32,6 +34,34 @@ function App() {
       console.error('Error fetching terms:', err);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const checkConnection = async () => {
+    setConnectionStatus('testing');
+    setTestMessage('Testando conexão...');
+    
+    try {
+      // Pequeno delay para feedback visual
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      const { count, error } = await supabase
+        .from('terms')
+        .select('*', { count: 'exact', head: true });
+
+      if (error) throw error;
+      
+      setConnectionStatus('success');
+      setTestMessage(`Conectado! ${count} termos encontrados.`);
+      
+      // Limpa a mensagem após 5 segundos
+      setTimeout(() => {
+        setConnectionStatus(null);
+        setTestMessage('');
+      }, 5000);
+    } catch (err) {
+      setConnectionStatus('error');
+      setTestMessage('Falha na conexão: ' + (err.message || 'Erro desconhecido'));
     }
   };
 
@@ -119,6 +149,36 @@ function App() {
           </div>
         )}
       </main>
+
+      {/* Rodapé com Teste de Conexão */}
+      <footer className="mt-8 w-full max-w-lg mx-auto flex flex-col items-center">
+        <button 
+          onClick={checkConnection}
+          disabled={connectionStatus === 'testing'}
+          className="flex items-center gap-2 text-xs font-medium text-text-muted hover:text-accent transition-colors py-2 px-4 rounded-full border border-card-border bg-card-bg/50"
+        >
+          {connectionStatus === 'testing' ? (
+            <div className="w-3 h-3 border-2 border-accent border-t-transparent rounded-full animate-spin"></div>
+          ) : (
+            <Activity className="w-3 h-3" />
+          )}
+          Testar Conexão com Supabase
+        </button>
+        
+        {testMessage && (
+          <div className={`mt-3 flex items-center gap-2 text-xs px-4 py-2 rounded-lg border animate-in fade-in slide-in-from-bottom-2 duration-300 ${
+            connectionStatus === 'success' 
+              ? 'bg-accent/10 border-accent/20 text-accent' 
+              : connectionStatus === 'error'
+              ? 'bg-danger/10 border-danger/20 text-danger'
+              : 'bg-card-bg border-card-border text-text-muted'
+          }`}>
+            {connectionStatus === 'success' && <CheckCircle2 className="w-3 h-3" />}
+            {connectionStatus === 'error' && <AlertCircle className="w-3 h-3" />}
+            {testMessage}
+          </div>
+        )}
+      </footer>
 
     </div>
   );
